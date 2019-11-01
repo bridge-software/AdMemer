@@ -1,3 +1,5 @@
+//This is background script for extension
+
 
 //main listener for extension
 chrome.runtime.onInstalled.addListener(function(  ) {

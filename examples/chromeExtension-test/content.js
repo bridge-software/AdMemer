@@ -1,3 +1,6 @@
+//This is content script
+
+
 
 //send message to extension from content script as a event trigger
 /*chrome.runtime.sendMessage({greeting: "hello"}, function(response) {

@@ -1,3 +1,5 @@
+//This is extension script
+
 
 //button (not benjamin one)
 let changeColor = document.getElementById('changeColor');
