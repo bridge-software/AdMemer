@@ -1,11 +1,12 @@
 //This is content script
 
 
-
 //send message to extension from content script as a event trigger
-/*chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+/*
+chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
   console.log(response.farewell);
-});*/
+});
+*/
 
 //    !!!!!! WARNING !!!!!!
 //holding state as global var, try to evolve this as in "REACT"
