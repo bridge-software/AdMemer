@@ -21,24 +21,24 @@ Bad: Included for back-compat for X element.
 //And also generic comment for function like this example below
 
 /**
- * Description here ...
- * 
- * You can observe this method by hovering over function name
- * 
- * This method must be used for every function
- * 
- * Also this method prevents some interpretation bugs for javascript, like static-class 
- * 
- * @param {number} arg1 this is a integer
- * @param {String} arg2 this is string
- * @param {Array}  arg3 this is a array
- * @returns {number} returning var comment here.Also type indicates the type of func 
- */
+* Description here ...
+* 
+* You can observe this method by hovering over function name
+* 
+* This method must be used for every function
+* 
+* Also this method prevents some interpretation bugs for javascript, like static-class 
+* 
+* @param {number} arg1 this is a integer
+* @param {String} arg2 this is string
+* @param {Array}  arg3 this is a array
+* @returns {number} returning var comment here.Also type indicates the type of func 
+*/
 function foo (arg1,arg2,arg3) {
     
     //does something then returns
     return implementedArg;
-
+    
 }
 
 //If you have a reusable function but also you dont want that function on your runtime atm 
@@ -51,7 +51,7 @@ function reusable (){
 }
 */
 
-//If you have something important to say for after reader, us this;
+//If you have something important to say for after reader, use this;
 //  !!!!! WARNING !!!!!
 
 
@@ -117,14 +117,14 @@ function setHeight (heightHolder) {
 
 //CLASS
 
-//Class naming starts with capitol letter then goes with capitol letter for every new word
+//Class naming starts with capital letter then goes with capital letter for every new word (Pascal Case)
 
 class SoftwareDeveloper {
     constructor(firstName, lastName) {
-      this.firstName = firstName;
-      this.lastName = lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
-  }
+}
 let me = new SoftwareDeveloper('Berkay', 'KOÇAK');
 
 //There is multiple ways to define a class but above one is most generic one.
@@ -133,18 +133,18 @@ let me = new SoftwareDeveloper('Berkay', 'KOÇAK');
 //unnamed
 let rectangle = class {
     constructor(height, width) {
-      this.height = height;
-      this.width = width;
+        this.height = height;
+        this.width = width;
     }
-  };
+};
 
 //named
 let rectangle = class Rectangle2 {
     constructor(height, width) {
-      this.height = height;
-      this.width = width;
+        this.height = height;
+        this.width = width;
     }
-  };
+};
 
 //We can define a single object
 const pastor = { name:"Branson",position:"free",location:"USA",previousState:"captive"};
@@ -155,10 +155,10 @@ const shepperd = {
     position:"free",
     location:"USA",
     previousState:"captive",
-
+    
     //Below statements was a case of 2015 and it changes nearly every year.So we still do stuff like below to avoid renewing the code every year!
     getName(){
-
+        
         //return this.name; //BAD.calling via this here creates variable overlapping of lexicality on c level.So it returns the pointer.
         return name;        //GOOD
     },
@@ -166,7 +166,7 @@ const shepperd = {
     {
         name = nameHolder
     },
-
+    
     // !!!!! WARNING !!!!!
     //Dont use arrow functions here as;
     setPosition = (positionHolder) =>
@@ -176,15 +176,15 @@ const shepperd = {
     //Arrow functions cannot be used to write object methods because, 
     //since arrow functions close over the "this" of the lexically enclosing context, 
     //the "this" within the arrow is the one that was current where you defined the object.
-     
-
+    
+    
 };
 
 
 //FILE & FOLDER NAMING
 
 //Script html manifest and all other kind of files must be in order same as variable order;
-//lower case for fist word than capitol letter on starting of every word ex: extensionExamples.js
+//lower case for fist word than capital letter on starting of every word ex: extensionExamples.js
 
 //For folders, all lower case and use underline for names with multiple words ex: assets_extension
 
