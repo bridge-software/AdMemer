@@ -1,5 +1,10 @@
 // This file is a guide to coding standarts for JAVASCRIPT
 
+//LANGUAGE
+
+//Everything must be in english.
+//Even if you have a proverb, translate it to english and than write it.!
+
 
 //COMMENTS : 
 
@@ -174,3 +179,4 @@ const shepperd = {
      
 
 };
+
