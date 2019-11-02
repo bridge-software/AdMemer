@@ -180,3 +180,11 @@ const shepperd = {
 
 };
 
+
+//FILE & FOLDER NAMING
+
+//Script html manifest and all other kind of files must be in order same as variable order;
+//lower case for fist word than capitol letter on starting of every word ex: extensionExamples.js
+
+//For folders, all lower case and use underline for names with multiple words ex: assets_extension
+
