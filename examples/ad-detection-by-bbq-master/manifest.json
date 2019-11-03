@@ -29,7 +29,7 @@
         "matches" : ["https://*/**"]
     }],
     "web_accessible_resources": [
-      "/library/adFinder.js"
+      "/library/adReplacer.js"
     ],
 
     "manifest_version": 2

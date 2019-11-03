@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * Locates advertisement and replaces it

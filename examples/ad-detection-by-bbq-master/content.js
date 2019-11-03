@@ -10,11 +10,10 @@ chrome.runtime.onMessage.addListener(
     console.log("GREETINGs INCOMING = "+request.command);
     //self trigger promise
     (async () => {
-      
       const adReplacer = await import(adReplacerURL);
       adReplacer.replaceAds();
-
     })();
+    
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
