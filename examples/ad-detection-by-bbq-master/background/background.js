@@ -10,7 +10,6 @@ chrome.runtime.onInstalled.addListener(function(  ) {
           actions: [new chrome.declarativeContent.ShowPageAction()]
         }]);
       });
-  
 });
 
 //get images from api here
