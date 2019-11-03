@@ -1,0 +1,21 @@
+{
+    "name" : "Ad detection by Adnan",
+    "version" : "1.0",
+    "description" : "An Ad replacer extension by Adnan Çığtekin",
+        "background": {
+            "scripts": ["background.js"],
+            "persistent": false
+        },
+        "page_action" :{ 
+            "default_popup" : "adDetect.html"
+        },
+        "content_scripts" : [{
+            "js" : ["adDetect.js"],
+            "matches" : ["https://*/**"]
+        }],
+        "web_accessible_resources": [
+            "/adDetectFunction.js"
+          ],
+        "permissions": ["activeTab", "declarativeContent", "storage"],
+        "manifest_version" : 2
+    }
