@@ -1,6 +1,6 @@
 //This is content script
 'use strict';
-const adFinderURL = chrome.runtime.getURL("/library/adFinder.js");
+const adReplacerURL = chrome.runtime.getURL("/library/adReplacer.js");
 
 
 //self trigger promise
@@ -12,8 +12,9 @@ chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     console.log("GREETINGs INCOMING = "+request.command);
     (async () => {
-      const adFinder = await import(adFinderURL);
-      adFinder.locateAdTag();
+      
+      const adReplacer = await import(adReplacerURL);
+      adReplacer.replaceAds();
 
     })();
     console.log(sender.tab ?

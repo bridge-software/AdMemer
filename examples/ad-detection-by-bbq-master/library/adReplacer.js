@@ -1,6 +1,9 @@
 
-
-const locateAdTag = () =>{
+/**
+ * Locates advertisement and replaces it
+ * 
+ */
+const replaceAds = () =>{
 
     const subNavigation = document.getElementById("sub-navigation");
     
@@ -27,10 +30,13 @@ const locateAdTag = () =>{
             {
                 console.log("\nIMAGE "+ imgIndex +" id ==> "+ imageList[imgIndex].id+" src ==>"+imageList[imgIndex].src);
                 
-                //place the meme to ad image
-                if(imgIndex % 2 == 1)
+                //replace the meme to ad image
+                //changing only the src of an image is not a solution
+                //we must entirely delete that div and replace a new, which constructed by us.
+                if(imgIndex % 2 == 0)
                 {
-                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/addnoneplaceholder.jpg"
+                    
+                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/adnoneplaceholder.jpg"
                 }
                 else{
                     imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/placeholder.jpeg"
@@ -47,5 +53,5 @@ const locateAdTag = () =>{
 
 };
 
-export { locateAdTag };
+export { replaceAds };
 
