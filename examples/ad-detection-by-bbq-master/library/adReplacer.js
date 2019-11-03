@@ -35,7 +35,6 @@ const replaceAds = () =>{
                 //we must entirely delete that div and replace a new, which constructed by us.
                 if(imgIndex % 2 == 0)
                 {
-                    
                     imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/adnoneplaceholder.jpg"
                 }
                 else{

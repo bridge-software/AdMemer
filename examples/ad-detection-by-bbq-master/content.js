@@ -3,14 +3,12 @@
 const adReplacerURL = chrome.runtime.getURL("/library/adReplacer.js");
 
 
-//self trigger promise
-
-
-
 //Listens message events, When changeColor command comes changes the color.(wow genius)
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
+
     console.log("GREETINGs INCOMING = "+request.command);
+    //self trigger promise
     (async () => {
       
       const adReplacer = await import(adReplacerURL);
