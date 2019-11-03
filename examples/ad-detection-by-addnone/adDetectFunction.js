@@ -1,5 +1,6 @@
 'use strict';
 
+
 const removeAds = () => {
     console.log("started changing")
     // let images = document.getElementsByTagName('img');
