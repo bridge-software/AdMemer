@@ -13,3 +13,6 @@ chrome.runtime.onInstalled.addListener(function(  ) {
   
 });
 
+//get images from api here
+//store it to extention storage on browser side
+
