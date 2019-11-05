@@ -29,6 +29,7 @@ async function main()
     let checkDomLoaded;
     let apiResult
 
+    initialization();
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
 
@@ -36,8 +37,7 @@ async function main()
 
     if(checkResult == true && checkDomLoaded == true)
     {
-        //!!!!! WARNING !!!!! ADNAN SEND API CALL MESSAGE HERE !!!!! WARNING !!!!!
-        //apiResult = message.response
+        
 
         //self trigger promise
         (async () => {
@@ -89,6 +89,15 @@ async function pageLoadListener(){
     return result;
 }
 
+/**
+ * Init func for requests
+ * 
+ */
+async function initialization(){
+
+    //!!!!! WARNING !!!!! ADNAN SEND API CALL MESSAGE HERE !!!!! WARNING !!!!!
+    //apiResult = message.response
+}
 
 main();
 
