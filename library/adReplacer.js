@@ -4,9 +4,9 @@
  * Locates advertisement and then replaces it with memes
  * 
  * Memes must be in a reachable extension store or they must be passed from main
- * 
+ * @param {Array} memeArray holds links of meme's
  */
-const replaceAds = () =>{
+const replaceAds = (memeArray) =>{
 
     console.log("document.readyState atm =  "+document.readyState);
     let frameList = locateAdsFrame();
@@ -15,8 +15,18 @@ const replaceAds = () =>{
 
     newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg" 
     
+    console.log(frameList);
     if (frameList != undefined)
     {
+        let tempParent;
+
+        for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
+        {
+            tempParent = frameList[frameIndex].parentNode;
+            frameList[frameIndex].parentNode.replaceChild(newImgTag,  frameList[frameIndex]);
+            console.log(tempParent);
+        }
+        /*
         frameList.forEach(frameElement => {
             //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
             //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
@@ -24,7 +34,9 @@ const replaceAds = () =>{
             //then createNewDomElement
             //then replace
             frameElement.parentNode.replaceChild(newImgTag, frameElement);
-        });
+            console.log("CHILD "+frameElement.childNode);
+             
+        });*/
     }
     else
     {console.log("Frame List Empty !");}
@@ -85,7 +97,7 @@ function locateAdsFrame (){
                     " parent "+frameList[frameIndex].parentNode.tagName);
                     //" child "+ frameList[frameIndex].childNode.tagName);
         
-        let innerDoc = frameList[frameIndex].contentDocument //|| frameList[frameIndex].contentWindow.document;
+        let innerDoc = frameList[frameIndex].contentDocument; //|| frameList[frameIndex].contentWindow.document;
         if(innerDoc != undefined)
         {
             console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
@@ -93,6 +105,7 @@ function locateAdsFrame (){
 
         } 
     }
+
 
     return possibleAdFrames;
 } 

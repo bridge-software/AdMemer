@@ -6,10 +6,10 @@ function initListeners (){
 
 
     //make this a switch button,if user wants addblock true else false
-    chrome.storage.sync.set({switchKey: false}, function() {
+    /*chrome.storage.sync.set({switchKey: false}, function() {
         console.log('Value is set to ' + false);
       });
-
+    */
     chrome.runtime.onMessage.addListener(
         (request, sender, sendResponse) => {
             

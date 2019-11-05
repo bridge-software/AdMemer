@@ -9,13 +9,7 @@ const HttpClientURL = chrome.runtime.getURL("/utilities/HttpClient.js");
   HttpClientObj = await import(HttpClientURL);
 })();
 
-//user decision to block ads
-chrome.storage.sync.set({switchKey: true}, function() {
-  console.log('Value is set to ' + true);
-  
 
-  
-});
 
 
 let HttpClientObj;
@@ -61,7 +55,10 @@ chrome.runtime.onMessage.addListener(
 
   //main listener for extension
   chrome.runtime.onInstalled.addListener(function(  ) {
-    
+    //user decision to block ads
+    chrome.storage.sync.set({switchKey: true}, function() {
+      console.log('Value is set to ' + true);
+    });
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
       chrome.declarativeContent.onPageChanged.addRules([{
         conditions: [new chrome.declarativeContent.PageStateMatcher({})],

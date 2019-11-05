@@ -5,14 +5,14 @@ const adReplacerURL = chrome.runtime.getURL("/library/adReplacer.js");
 //promise to get storage value 
 const storagePromise = new Promise(function(resolve, reject) {
     chrome.storage.sync.get(['switchKey'], function(result) {
-        console.log('Value currently is ' + result.switchKey);
+        console.log('promise:Switch is currently ' + result.switchKey);
         resolve(result.switchKey); 
       });
 });
 //promise to get stage state
 const pageLoadPromise = new Promise(function(resolve, reject) {
     window.addEventListener('load', (event) => {
-        console.log('page is fully loaded');
+        console.log('promise:Page is fully loaded');
         resolve(true);
       });
 });
@@ -27,9 +27,9 @@ async function main()
 {
     let checkResult;
     let checkDomLoaded;
-    let apiResult
-
-    initialization();
+    let apiResult;
+    const adReplacer = await import(adReplacerURL);
+   // apiResult = await getMemeFromApi();
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
 
@@ -37,16 +37,9 @@ async function main()
 
     if(checkResult == true && checkDomLoaded == true)
     {
-        
-
-        //self trigger promise
-        (async () => {
-            const adReplacer = await import(adReplacerURL);
-            console.log("REPLACER STARTS..");
-            //if we cant use store, get images and pass it to replacer
-            adReplacer.replaceAds(); 
-            
-        })();
+        console.log("REPLACER STARTS..");
+        //if we cant use store, get images and pass it to replacer
+        adReplacer.replaceAds(apiResult); 
     }    
 
     //ADD AN UPDATE LISTENER FOR LATER ADS
@@ -90,28 +83,25 @@ async function pageLoadListener(){
 }
 
 /**
- * Init func for requests
+ * Calls background for meme via message event
  * 
+ * @param {number} memeNum requested meme number
+ * @returns {Array} a array of meme links
  */
-async function initialization(){
+async function getMemeFromApi(memeNum ){
 
-    //!!!!! WARNING !!!!! ADNAN SEND API CALL MESSAGE HERE !!!!! WARNING !!!!!
-    
-    //if we cant store it to backgorund we must pass it through a event
-    //and that events listener must be defined here
-    let apiResult = new Promise(function (resolve) {
-        chrome.runtime.sendMessage(
-        {command: "giveMeme",
-         memeAmount : 3
-        },function (response){
-            resolve(response.result);
-        }
-        )});
+    let result;
+    let getMeme = new Promise(function (resolve) {
+        chrome.runtime.sendMessage({command: "giveMeme",memeAmount : memeNum},function (response){
+            resolve(response.result);})
+        });
 
-    await apiResult.then(function(resolveValue){
-        console.log("my memes : " + resolveValue)
-
+    await getMeme.then(function(resolveValue){
+        console.log("Meme's from api  : " + resolveValue)
+        result = resolveValue;
     })
+
+    return result
 }
 
 main();
