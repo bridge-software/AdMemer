@@ -29,7 +29,7 @@ async function main()
     let checkDomLoaded;
     let apiResult;
     const adReplacer = await import(adReplacerURL);
-   // apiResult = await getMemeFromApi();
+    //apiResult = await getMemeFromApi(10);
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
 
@@ -38,7 +38,6 @@ async function main()
     if(checkResult == true && checkDomLoaded == true)
     {
         console.log("REPLACER STARTS..");
-        //if we cant use store, get images and pass it to replacer
         adReplacer.replaceAds(apiResult); 
     }    
 

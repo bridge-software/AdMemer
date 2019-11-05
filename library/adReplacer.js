@@ -11,62 +11,59 @@ const replaceAds = (memeArray) =>{
     console.log("document.readyState atm =  "+document.readyState);
     let frameList = locateAdsFrame();
     let divList = locateAdsDiv();
-    let newImgTag = document.createElement("img");
-
-    newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg" 
     
     console.log(frameList);
     if (frameList != undefined)
     {
-        let tempParent;
-
-        for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
-        {
-            tempParent = frameList[frameIndex].parentNode;
-            frameList[frameIndex].parentNode.replaceChild(newImgTag,  frameList[frameIndex]);
-            console.log(tempParent);
-        }
-        /*
+        //this loop is for test
         frameList.forEach(frameElement => {
-            //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
-            //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
-            //call both with await
-            //then createNewDomElement
-            //then replace
-            frameElement.parentNode.replaceChild(newImgTag, frameElement);
-            console.log("CHILD "+frameElement.childNode);
-             
-        });*/
+            
+            let newImgTag = document.createElement("img");
+            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            
+            //let randomNum = Math.round(Math.random() * 10)
+            //newImgTag.src = memeArray[randomNum];
+            frameElement.parentNode.replaceChild(newImgTag, frameElement);     
+        });
+        
+        //real iteration is like tihs
+        //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
+        //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
+        //call both with await
+        //then createNewDomElements (scaledMemeArray,adTagArray)
+        //then replace all via loop
     }
     else
     {console.log("Frame List Empty !");}
 
-    if (divList != undefined) {
-        
-        /*divList.forEach(divElement => {
-            //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
-            //start imageScaler (gets images from extension storage then scales them as ad image size)
-            //call both with await
-            //then createNewDomElement
-            //then replace
-            divElement.parentNode.replaceChild(newImgTag, divElement);
-        });*/
-    } 
+    if (divList != undefined) 
+    {} 
     else {console.log("Division List Empty !");}
 
 };
 
 /**
- * It will create new dom img 
+ * It will create new dom img with a random picture from meme array
+ * 
+ * ! Meme array and tag array must be in matching order !
+ * 
+ * @param {Array} scaledMemeArray holds scaled memes
+ * @param {Array} adTagArray holds filtered tags for ad replacement
+ * @returns {HTMLElement} html img element
  */
-function createNewDomElement (){
+function createNewDomElements (scaledMemeArray,adTagArray){
 
-  let newImg = document.createElement("img"); 
-  newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-
-  // add the newly created element and its content into the DOM 
-  let currentDiv = document.getElementById("div1"); 
-  document.body.insertBefore(newDiv, currentDiv); 
+    let imgTagArray = []
+    for (let index = 0; index < adTagArray.length; index++) 
+    {
+        let newImg = document.createElement("img");
+        newImg.id  = "MemeIMG_"+index.toString();
+        newImg.src = scaledMemeArray[index];
+        imgTagArray.push(newImg)
+    }
+  console.log("imgTagArray "+imgTagArray);
+  
+  return imgTagArray;
 } 
 
 
@@ -103,10 +100,13 @@ function locateAdsFrame (){
             console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
             possibleAdFrames.push(frameList[frameIndex]);
 
+        }
+        else if(frameList[frameIndex].src.indexOf(("googlesyndication")) > -1)
+        {
+            console.log("\n VIA SOURCE "+frameList[frameIndex].src + "\n");
+            possibleAdFrames.push(frameList[frameIndex]);
         } 
     }
-
-
     return possibleAdFrames;
 } 
 
