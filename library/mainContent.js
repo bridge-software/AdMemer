@@ -1,108 +1,95 @@
 'use strict';
 
-// IMPORTS 
+// IMPORTS & INITS
 const adReplacerURL = chrome.runtime.getURL("/library/adReplacer.js");
+//promise to get storage value 
+const storagePromise = new Promise(function(resolve, reject) {
+    chrome.storage.sync.get(['switchKey'], function(result) {
+        console.log('Value currently is ' + result.switchKey);
+        resolve(result.switchKey); 
+      });
+});
+//promise to get stage state
+const pageLoadPromise = new Promise(function(resolve, reject) {
+    window.addEventListener('load', (event) => {
+        console.log('page is fully loaded');
+        resolve(true);
+      });
+});
 
-
+/**
+ * Passive [ASYNC]
+ * 
+ * Main script func
+ * ...
+ */
 async function main()
 {
     let checkResult;
-    let isDomLoaded;
+    let checkDomLoaded;
+    let apiResult
 
-    console.log("contenScript");
-    checkResult = await checkExtensionScript();
-    console.log("checkResult "+checkResult);
-    if(checkResult == true)
+    checkResult = await extensionStoreListener();
+    checkDomLoaded = await pageLoadListener();
+
+    console.log("checkResult "+checkResult +" checkDomLoaded "+checkDomLoaded);
+
+    if(checkResult == true && checkDomLoaded == true)
     {
+        //!!!!! WARNING !!!!! ADNAN SEND API CALL MESSAGE HERE !!!!! WARNING !!!!!
+        //apiResult = message.response
+
         //self trigger promise
         (async () => {
             const adReplacer = await import(adReplacerURL);
             console.log("REPLACER STARTS..");
+            //if we cant use store, get images and pass it to replacer
             adReplacer.replaceAds(); 
             
         })();
     }    
-}
 
+    //ADD AN UPDATE LISTENER FOR LATER ADS
+}
 
 /**
- * Starts Listeners for these content script;
+ * [ASYNC]
  * 
- * 1) chrome.runtime.onMessage, 
+ * Checks the store for user options.
+ * Currently it only check on/off switch
  * 
- * 2) 
- * 
+ * @returns {boolean} bool
  */
-
-function initListeners() {
+async function extensionStoreListener()  {
     
-    document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
-
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>
-    {
-        console.log("INCOMING COMMAND = "+request.command);
-        console.log(sender.tab ?
-                    "from a content script:" + sender.tab.url :
-                    "from the extension");
-        if (request.command == "replaceAds")
-        {
-            console.log("replace bool "+ request.replace);
-            if(request.replace == true)
-            {}
-            else
-            {console.log(" replace is false ");}
-            sendResponse({farewell: "Hi extension im contentScript, ur request to replace ads has been granted."});
-        }
-        else
-        {console.log("what is this?");}
-    });
-}
-
-
-async function checkExtensionScript()  {
-    
-    console.log("check intit");
+    console.log("check store");
     let result = false;
 
-    //boom shaka laka
-    const storagePromise = new Promise(function(resolve, reject) {
-        chrome.storage.sync.get(['switchKey'], function(result) {
-            console.log('Value currently is ' + result.switchKey);
-            resolve(result.switchKey); 
-          });
-      });
-      
-     await storagePromise.then(function(resolveValue) {
+    await storagePromise.then(function(resolveValue) {
         console.log("resolveValue "+resolveValue);
         result = resolveValue;
       });
    
     return result;
     
-    /*
-    chrome.runtime.sendMessage({check: "Do we block ?"}, function(response) {
-        result = response.result;
-        console.log(response.result);
-    })*/
-    
+}
+
+/**
+ * [ASYNC]
+ * 
+ * Checks if the page loaded fully.[Some ads may load after very long time, so dont completely trust in this.]
+ * @returns {boolean} bool
+ */
+async function pageLoadListener(){
+    let result = false;
+    await pageLoadPromise.then(function(resolveValue) {
+        console.log("resolveValue for page loaded"+resolveValue);
+        result = resolveValue;
+      });
+    return result;
 }
 
 
-function fireContentLoadedEvent () {
-    console.log ("DOM Content Loaded !");
-    const checkResult = checkExtensionScript();
-
-    if(checkResult)
-    {
-        //self trigger promise
-        (async () => {
-            const adReplacer = await import(adReplacerURL);
-            //adReplacer.replaceAds();
-        })();
-    }
-}
-
-initListeners();
 main();
 
     
