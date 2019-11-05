@@ -44,13 +44,15 @@ chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     
 
-
     
     for(let i = 0; i < request.memeAmount; i ++){
-      getMaMeme();
-      console.log("get ma meme #" + i);
+      (async () => {
+        getMaMeme();
+        console.log("get ma meme #" + i);
+      })();
+      
+
     }
-    //this process must be done in some statements
     sendResponse( {result: curMemes});
     
   })
