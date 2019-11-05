@@ -5,85 +5,68 @@
 
 
 const HttpClientURL = chrome.runtime.getURL("/utilities/HttpClient.js");
-
+(async () => {
+  HttpClientObj = await import(HttpClientURL);
+})();
 
 //user decision to block ads
 chrome.storage.sync.set({switchKey: true}, function() {
   console.log('Value is set to ' + true);
   
-  
-  
-  
-  
-  
+
   
 });
 
-async function getMaMeme(){
-  const HttpClientObj = await import(HttpClientURL);
+
+let HttpClientObj;
+let curMemes = []
+
+/**
+ *  The function for getting memes via API.
+ */
+function getMaMeme(){
+  
   
   
   HttpClientObj.httpClientGet('https://meme-api.herokuapp.com/gimme', function(response) {
   console.log("GOT THE MEME");
   console.log("THE MEME URL : " + JSON.parse(response).url);
+  curMemes.push( JSON.parse(response).url)
   
-  chrome.runtime.sendMessage({giveMeme: true,
-                              memeLink: JSON.parse(response).url},function (){
-                                console.log("SENT MEME")
-                              })
 })
 
 }
 
-chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
- 
+/**
+ *  Listener for meme requests
+ */
+chrome.runtime.onMessage.addListener(
+  (request, sender, sendResponse) => {
     
-    getMaMeme();
-    console.log("get ma meme");
+
+
     
+    for(let i = 0; i < request.memeAmount; i ++){
+      getMaMeme();
+      console.log("get ma meme #" + i);
+    }
+    //this process must be done in some statements
+    sendResponse( {result: curMemes});
+    
+  })
   
-})
-
-
-chrome.runtime.onConnect.addListener(port => {
-  console.log('connected ', port);
-
-  if (port.name === 'hi') {
-    port.onMessage.addListener(
-      (request, sender, sendResponse) => {
-          
-          // console.log("Sender Tab "+ sender.tab);
-          // console.log("Incoming  = "+request.check);
-          if (request.giveMeme) {
-            console.log("RECEIVED MEME " + request.memeLink)
-            chrome.runtime.sendMessage({giveMeme: false,
-              memeLink: JSON.parse(response).url})
-          }
-          //this process must be done in some statements
-         sendResponse( {result: true});
-          
-      })
-  }
-});
-
-
-
-
-
-
-
-
-
-//main listener for extension
-chrome.runtime.onInstalled.addListener(function(  ) {
   
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [new chrome.declarativeContent.PageStateMatcher({})],
-      actions: [new chrome.declarativeContent.ShowPageAction()]
-    }]);
+
+  //main listener for extension
+  chrome.runtime.onInstalled.addListener(function(  ) {
+    
+    chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+      chrome.declarativeContent.onPageChanged.addRules([{
+        conditions: [new chrome.declarativeContent.PageStateMatcher({})],
+        actions: [new chrome.declarativeContent.ShowPageAction()]
+      }]);
+    });
   });
-});
-
-//get images from api here
-//store it to extention storage on browser side
+  
+  //get images from api here
+  //store it to extention storage on browser side

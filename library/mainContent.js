@@ -99,7 +99,13 @@ async function initialization(){
     
     //if we cant store it to backgorund we must pass it through a event
     //and that events listener must be defined here
-    //apiResult = message.response
+    let apiResult = chrome.runtime.sendMessage(
+        {command: "giveMeme",
+         memeAmount : 3
+        },function (response){
+            console.log("my memes : " + response.result)
+        }
+        )
 }
 
 main();

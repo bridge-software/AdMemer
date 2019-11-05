@@ -1,5 +1,7 @@
 
-
+/**
+ * Function for Http requests with "GET" method.
+ */
 const httpClientGet = (aUrl, aCallback) => {
    
       var anHttpRequest = new XMLHttpRequest();
@@ -8,7 +10,7 @@ const httpClientGet = (aUrl, aCallback) => {
         aCallback(anHttpRequest.responseText);
       }
       
-      anHttpRequest.open( "GET", aUrl, true );            
+      anHttpRequest.open( "GET", aUrl, false );            
       anHttpRequest.send( null );
     
   }
