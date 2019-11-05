@@ -10,23 +10,38 @@ const replaceAds = () =>{
 
     console.log("document.readyState atm =  "+document.readyState);
     let frameList = locateAdsFrame();
+    let divList = locateAdsDiv();
     let newImgTag = document.createElement("img"); 
     newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg" 
     
-    if(frameList != undefined)
+    if (frameList != undefined)
     {
         frameList.forEach(frameElement => {
             //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
-            //start imageScaler (gets images from extension storage then scales them as ad image size)
+            //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
             //call both with await
             frameElement.parentNode.replaceChild(newImgTag, frameElement);
         });
     }
     else
     {console.log("Frame List Empty !");}
+
+    if (divList != undefined) {
+        
+        /*divList.forEach(divElement => {
+            //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
+            //start imageScaler (gets images from extension storage then scales them as ad image size)
+            //call both with await
+            divElement.parentNode.replaceChild(newImgTag, divElement);
+        });*/
+    } 
+    else {console.log("Division List Empty !");}
+
 };
 
-
+/**
+ * It will create new dom img 
+ */
 function createNewDomElement (){
 
   let newImg = document.createElement("img"); 

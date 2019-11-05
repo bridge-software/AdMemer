@@ -1,0 +1,1 @@
+//gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size
