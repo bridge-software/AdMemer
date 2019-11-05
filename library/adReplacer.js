@@ -1,27 +1,28 @@
 'use strict';
 
 /**
- * Locates advertisement and replaces it
+ * Locates advertisement and then replaces it with memes
+ * 
+ * Memes must be in a reachable extension store or they must be passed from main
  * 
  */
 const replaceAds = () =>{
 
     let frameList = document.body.getElementsByTagName('iframe');
-
+    console.log("document.readyState atm =  "+document.readyState);
+     
     for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
     {
         console.log("\niframe "+ frameIndex +
                     " id ==> "+ frameList[frameIndex].id+
-                    " has attribute src? ==> "+frameList[frameIndex].hasAttribute("src")+
+                    " src ==> "+frameList[frameIndex].src+
                     " parent "+frameList[frameIndex].parentNode.tagName);
                     //" child "+ frameList[frameIndex].childNode.tagName);
         
-
         let innerDoc = frameList[frameIndex].contentDocument //|| frameList[frameIndex].contentWindow.document;
-        let imageList;
         if(innerDoc != undefined)
         {
-            imageList = innerDoc.images;
+            console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
             let newImg = document.createElement("img"); 
             newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             frameList[frameIndex].parentNode.replaceChild(newImg, frameList[frameIndex]); 
@@ -30,30 +31,8 @@ const replaceAds = () =>{
             //start imageScaler (gets images from extension storage then scales them as ad image size)
             //call both with await
 
-            for(let imgIndex=0; imgIndex < imageList.length;imgIndex++)
-            {
-                console.log("\nIMAGE "+ imgIndex +" id ==> "+ imageList[imgIndex].id+" src ==>"+imageList[imgIndex].src);
-                
-                //replace the meme to ad image
-                //changing only the src of an image is not a solution
-                //we must entirely delete that div and replace a new, which constructed by us.
-                if(imgIndex % 2 == 0)
-                {
-                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-                }
-                else{
-                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/placeholder.jpeg"
-                }
-
-            }
-            innerDoc = undefined;
-            imageList = undefined;
-        }
-        
+        } 
     }
-    
-    
-
 };
 
 
