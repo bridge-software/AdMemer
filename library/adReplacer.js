@@ -22,9 +22,7 @@ const replaceAds = () =>{
         let innerDoc = frameList[frameIndex].contentDocument //|| frameList[frameIndex].contentWindow.document;
         if(innerDoc != undefined)
         {
-            console.log("\n SOURCE OF FRRAME "+frameList[frameIndex].src + "\n");
-            
-            imageList = innerDoc.images;
+            console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
             let newImg = document.createElement("img"); 
             newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             frameList[frameIndex].parentNode.replaceChild(newImg, frameList[frameIndex]); 
@@ -32,7 +30,7 @@ const replaceAds = () =>{
             //start adFilter (adfilter must filter advertisement images from website images so only ad images gets banned)
             //start imageScaler (gets images from extension storage then scales them as ad image size)
             //call both with await
-            
+
         } 
     }
 };
