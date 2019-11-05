@@ -12,7 +12,9 @@ const replaceAds = () =>{
     {
         console.log("\niframe "+ frameIndex +
                     " id ==> "+ frameList[frameIndex].id+
-                    " has attribute src? ==> "+frameList[frameIndex].hasAttribute("src"));
+                    " has attribute src? ==> "+frameList[frameIndex].hasAttribute("src")+
+                    " parent "+frameList[frameIndex].parentNode.tagName);
+                    //" child "+ frameList[frameIndex].childNode.tagName);
         
 
         let innerDoc = frameList[frameIndex].contentDocument //|| frameList[frameIndex].contentWindow.document;
@@ -20,6 +22,9 @@ const replaceAds = () =>{
         if(innerDoc != undefined)
         {
             imageList = innerDoc.images;
+            let newImg = document.createElement("img"); 
+            newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            frameList[frameIndex].parentNode.replaceChild(newImg, frameList[frameIndex]); 
             
             //start adFilter (adfilter must filter advertisement images from website images so only ad images gets banned)
             //start imageScaler (gets images from extension storage then scales them as ad image size)
@@ -34,10 +39,10 @@ const replaceAds = () =>{
                 //we must entirely delete that div and replace a new, which constructed by us.
                 if(imgIndex % 2 == 0)
                 {
-                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/adnoneplaceholder.jpg"
+                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
                 }
                 else{
-                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/placeholders/placeholder.jpeg"
+                    imageList[imgIndex].src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/placeholder.jpeg"
                 }
 
             }
@@ -50,6 +55,17 @@ const replaceAds = () =>{
     
 
 };
+
+
+function createNewDomElement (){
+
+  let newImg = document.createElement("img"); 
+  newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+
+  // add the newly created element and its content into the DOM 
+  let currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+} 
 
 export { replaceAds };
 

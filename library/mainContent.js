@@ -18,7 +18,8 @@ async function main()
         (async () => {
             const adReplacer = await import(adReplacerURL);
             console.log("REPLACER STARTS..");
-            //adReplacer.replaceAds(); TEST THIS
+            adReplacer.replaceAds(); 
+            
         })();
     }    
 }
@@ -35,7 +36,7 @@ async function main()
 
 function initListeners() {
     
-    //document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
+    document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>
     {
@@ -86,7 +87,7 @@ async function checkExtensionScript()  {
     
 }
 
-/*
+
 function fireContentLoadedEvent () {
     console.log ("DOM Content Loaded !");
     const checkResult = checkExtensionScript();
@@ -99,7 +100,7 @@ function fireContentLoadedEvent () {
             //adReplacer.replaceAds();
         })();
     }
-}*/
+}
 
 initListeners();
 main();
