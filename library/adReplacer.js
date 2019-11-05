@@ -8,9 +8,55 @@
  */
 const replaceAds = () =>{
 
-    let frameList = document.body.getElementsByTagName('iframe');
     console.log("document.readyState atm =  "+document.readyState);
-     
+    let frameList = locateAdsFrame();
+    let newImgTag = document.createElement("img"); 
+    newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg" 
+    
+    if(frameList != undefined)
+    {
+        frameList.forEach(frameElement => {
+            //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
+            //start imageScaler (gets images from extension storage then scales them as ad image size)
+            //call both with await
+            frameElement.parentNode.replaceChild(newImgTag, frameElement);
+        });
+    }
+    else
+    {console.log("Frame List Empty !");}
+};
+
+
+function createNewDomElement (){
+
+  let newImg = document.createElement("img"); 
+  newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+
+  // add the newly created element and its content into the DOM 
+  let currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+} 
+
+
+/**
+ * Locate ads in division tags,
+ * searches pre-defined names for id's ,classes and links.
+ * @returns {Array} array that holds possible ad tags
+ */
+function locateAdsDiv (){
+    let divList = document.body.getElementsByTagName('div');
+    //under construct
+}
+
+/**
+ * Locate ads in iframe tags.
+ * 
+ * it takes all of the iframes and if it has a inner document, selects it as a possible advertisement tag.
+ * @returns {Array} array that holds possible ad tags
+ */
+function locateAdsFrame (){
+    let frameList = document.body.getElementsByTagName('iframe');
+    let possibleAdFrames = [];
     for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
     {
         console.log("\niframe "+ frameIndex +
@@ -23,27 +69,12 @@ const replaceAds = () =>{
         if(innerDoc != undefined)
         {
             console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
-            let newImg = document.createElement("img"); 
-            newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-            frameList[frameIndex].parentNode.replaceChild(newImg, frameList[frameIndex]); 
-            
-            //start adFilter (adfilter must filter advertisement images from website images so only ad images gets banned)
-            //start imageScaler (gets images from extension storage then scales them as ad image size)
-            //call both with await
+            possibleAdFrames.push(frameList[frameIndex]);
 
         } 
     }
-};
 
-
-function createNewDomElement (){
-
-  let newImg = document.createElement("img"); 
-  newImg.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-
-  // add the newly created element and its content into the DOM 
-  let currentDiv = document.getElementById("div1"); 
-  document.body.insertBefore(newDiv, currentDiv); 
+    return possibleAdFrames;
 } 
 
 export { replaceAds };

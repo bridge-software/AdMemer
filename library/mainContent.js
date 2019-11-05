@@ -96,6 +96,8 @@ async function pageLoadListener(){
 async function initialization(){
 
     //!!!!! WARNING !!!!! ADNAN SEND API CALL MESSAGE HERE !!!!! WARNING !!!!!
+    //if we cant store it to backgorund we must pass it through a event
+    //and that events listener must be defined here
     //apiResult = message.response
 }
 
