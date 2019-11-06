@@ -3,7 +3,7 @@
 //We must do connection and image gatherings here
 //Also, if we need to communicate with other blockers, we must do it here. 
 
-const HttpClientURL = chrome.runtime.getURL("/utilities/HttpClient.js");
+const HttpClientURL = chrome.runtime.getURL("/utilities/httpClient.js");
 
 (async () => {
   HttpClientObj = await import(HttpClientURL);

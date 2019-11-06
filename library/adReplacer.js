@@ -1,22 +1,29 @@
 'use strict';
 
+const adFilterURL = chrome.runtime.getURL("./library/adFilter.js");
 /**
  * Locates advertisement and then replaces it with memes
  * 
  * Memes must be in a reachable extension store or they must be passed from main
  * @param {Array} memeArray holds links of meme's
  */
-const replaceAds = (memeArray) =>{
+const replaceAds = async (memeArray) =>{
 
     console.log("document.readyState atm =  "+document.readyState);
+    const adFilter = await import(adFilterURL);
     let frameList = locateAdsFrame();
     let divList = locateAdsDiv();
+    let filteredFrameList = [];
     
+
     console.log(frameList);
     if (frameList != undefined)
     {
+        filteredFrameList = await adFilter.filterFrames(frameList);
+        console.log(filteredFrameList);
+        
         //this loop is for test
-        frameList.forEach(frameElement => {
+        filteredFrameList.forEach(frameElement => {
             
             let newImgTag = document.createElement("img");
             newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
@@ -28,6 +35,7 @@ const replaceAds = (memeArray) =>{
         
         //real iteration is like tihs
         //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
+        
         //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
         //call both with await
         //then createNewDomElements (scaledMemeArray,adTagArray)

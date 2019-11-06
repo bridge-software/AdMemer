@@ -27,10 +27,13 @@
       "content_scripts": [{   
         "js" : ["library/mainContent.js"],
         "matches" : ["https://*/**"],
-        "run_at" : "document_idle"
+        "run_at" : "document_start"
     }],
     "web_accessible_resources": [
-      "/library/adReplacer.js"
+      "/library/adReplacer.js",
+      "/library/adFilter.js",
+      "/resources/hosts.json",
+      "/utilities/httpClient.js"
     ],
 
     "manifest_version": 2

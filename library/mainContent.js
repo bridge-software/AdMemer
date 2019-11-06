@@ -17,6 +17,7 @@ const pageLoadPromise = new Promise(function(resolve, reject) {
       });
 });
 
+// FUNCTIONS
 /**
  * Passive [ASYNC]
  * 
@@ -38,7 +39,7 @@ async function main()
     if(checkResult == true && checkDomLoaded == true)
     {
         console.log("REPLACER STARTS..");
-        adReplacer.replaceAds(apiResult); 
+        await adReplacer.replaceAds(apiResult); 
     }    
 
     //ADD AN UPDATE LISTENER FOR LATER ADS
