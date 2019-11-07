@@ -12,7 +12,7 @@ const storagePromise = new Promise(function(resolve, reject) {
 //promise to get stage state
 const pageLoadPromise = new Promise(function(resolve, reject) {
     window.addEventListener('load', (event) => {
-        console.log('promise:Page is fully loaded');
+        console.log('\npromise:Page is fully loaded\n');
         resolve(true);
       });
 });
@@ -62,9 +62,7 @@ async function extensionStoreListener()  {
         console.log("resolveValue "+resolveValue);
         result = resolveValue;
       });
-   
     return result;
-    
 }
 
 /**
@@ -83,6 +81,8 @@ async function pageLoadListener(){
 }
 
 /**
+ * [ASYNC]
+ * 
  * Calls background for meme via message event
  * 
  * @param {number} memeNum requested meme number

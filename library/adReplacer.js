@@ -55,12 +55,12 @@ const replaceAds = async (memeArray) =>{
             
             //let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
-            if(divElement.tagName == "A")
+            if(divElement.tagName == "A" && divElement.parentNode != undefined)
             {
                 console.log("THIS IS TAG A");
                 divElement.parentNode.replaceChild(newImgTag, divElement); 
             }
-            else if (divElement.tagName == "img")
+            else if (divElement.tagName == "img" && divElement.parentNode != undefined)
             {
                 console.log("THIS IS TAG IMG");
                 divElement.parentNode.replaceChild(newImgTag, divElement); 

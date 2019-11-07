@@ -174,7 +174,9 @@ const linkSlicer = (link) =>{
     }
     tempSTR = link.slice(tempStartIndex,tempEndIndex);
     console.log("\nlink = "+link+"  sliced link "+tempSTR);
-
+    tempStartIndex = 0; 
+    tempEndIndex = 0; 
+    tempSTR_holder = "";
     return tempSTR;
 }
 
