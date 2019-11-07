@@ -27,7 +27,7 @@
       "content_scripts": [{   
         "js" : ["library/mainContent.js"],
         "matches" : ["https://*/**"],
-        "run_at" : "document_start"
+        "run_at" : "document_idle"
     }],
     "web_accessible_resources": [
       "/library/adReplacer.js",

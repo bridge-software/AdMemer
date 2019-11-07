@@ -46,7 +46,7 @@ const replaceAds = async (memeArray) =>{
     {
         filteredDivList = await adFilter.filterDivisions(divList);
         //this loop is for test
-        filteredDivList.forEach(divElement => {
+        filteredDivList.forEach (divElement =>  {
             
             console.log(filteredDivList);
             
@@ -58,10 +58,19 @@ const replaceAds = async (memeArray) =>{
             if(divElement.tagName == "A")
             {
                 console.log("THIS IS TAG A");
-                
+                divElement.parentNode.replaceChild(newImgTag, divElement); 
+            }
+            else if (divElement.tagName == "img")
+            {
+                console.log("THIS IS TAG IMG");
+                divElement.parentNode.replaceChild(newImgTag, divElement); 
             }
             else
-            divElement.parentNode.replaceChild(newImgTag, divElement);     
+            {
+                console.log("replacing a div "+divElement.id);
+                divElement.parentNode.replaceChild(newImgTag, divElement);    
+            }
+             
         });
     } 
     else {console.log("Division List Empty !");}
