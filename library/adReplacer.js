@@ -14,9 +14,8 @@ const replaceAds = async (memeArray) =>{
     let frameList = locateAdsFrame();
     let divList = locateAdsDiv();
     let filteredFrameList = [];
+    let filteredDivList = [];
     
-
-    console.log(frameList);
     if (frameList != undefined)
     {
         filteredFrameList = await adFilter.filterFrames(frameList);
@@ -34,8 +33,7 @@ const replaceAds = async (memeArray) =>{
         });
         
         //real iteration is like tihs
-        //start adFilter (adfilter must filter possible advertisement tags which has been located by functions )
-        
+        //filteredFrameList = await adFilter.filterFrames(frameList);
         //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
         //call both with await
         //then createNewDomElements (scaledMemeArray,adTagArray)
@@ -45,7 +43,27 @@ const replaceAds = async (memeArray) =>{
     {console.log("Frame List Empty !");}
 
     if (divList != undefined) 
-    {} 
+    {
+        filteredDivList = await adFilter.filterDivisions(divList);
+        //this loop is for test
+        filteredDivList.forEach(divElement => {
+            
+            console.log(filteredDivList);
+            
+            let newImgTag = document.createElement("img");
+            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            
+            //let randomNum = Math.round(Math.random() * 10)
+            //newImgTag.src = memeArray[randomNum];
+            if(divElement.tagName == "A")
+            {
+                console.log("THIS IS TAG A");
+                
+            }
+            else
+            divElement.parentNode.replaceChild(newImgTag, divElement);     
+        });
+    } 
     else {console.log("Division List Empty !");}
 
 };
@@ -82,7 +100,14 @@ function createNewDomElements (scaledMemeArray,adTagArray){
  */
 function locateAdsDiv (){
     let divList = document.body.getElementsByTagName('div');
-    //under construct
+    let childNum = 0;
+    let possibleAdDivisions = [];
+    for(let divIndex = 0; divIndex < divList.length; divIndex++)
+    {
+        if(divList[divIndex].hasChildNodes())
+            {possibleAdDivisions.push(divList[divIndex]);}
+    }
+    return possibleAdDivisions;
 }
 
 /**
@@ -98,22 +123,9 @@ function locateAdsFrame (){
     {
         console.log("\niframe "+ frameIndex +
                     " id ==> "+ frameList[frameIndex].id+
-                    " src ==> "+frameList[frameIndex].src+
-                    " parent "+frameList[frameIndex].parentNode.tagName);
-                    //" child "+ frameList[frameIndex].childNode.tagName);
-        
-        let innerDoc = frameList[frameIndex].contentDocument; //|| frameList[frameIndex].contentWindow.document;
-        if(innerDoc != undefined)
-        {
-            console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
-            possibleAdFrames.push(frameList[frameIndex]);
-
-        }
-        else if(frameList[frameIndex].src.indexOf(("googlesyndication")) > -1)
-        {
-            console.log("\n VIA SOURCE "+frameList[frameIndex].src + "\n");
-            possibleAdFrames.push(frameList[frameIndex]);
-        } 
+                    " src ==> "+frameList[frameIndex].src);
+        console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
+        possibleAdFrames.push(frameList[frameIndex]);
     }
     return possibleAdFrames;
 } 
