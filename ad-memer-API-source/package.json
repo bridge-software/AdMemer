@@ -1,0 +1,19 @@
+{
+  "name": "ad-memer-web-scraper",
+  "version": "1.0.0",
+  "description": "A web scraper for scraping sexy memes!!!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Adnan Çığtekin",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "firebase": "^7.3.0",
+    "firebase-admin": "^8.7.0",
+    "request": "^2.88.0"
+  }
+}

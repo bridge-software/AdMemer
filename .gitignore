@@ -12,4 +12,4 @@ pom.xml.asc
 .lein-failures
 .nrepl-port
 .cpcache/
-ad-memer-web-scraper/node_modules
+ad-memer-API-source/node_modules
