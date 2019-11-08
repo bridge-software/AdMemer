@@ -24,8 +24,8 @@ function getMaMeme(memeAmount){
   HttpClientObj.httpClientGet('https://ad-memer-web-scraper.herokuapp.com/getMemes/' + memeAmount , function(response) {
   console.log("GOT THE MEME RAW " + response);
   console.log("THE MEME URL : " + response);
-
-
+  
+  
   curMemes = response
   
 })
@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(
     
     if(request.command === "giveMeme"){
       getMaMeme(request.memeAmount);
-
+      
       sendResponse( {result: curMemes});
     }else{
       sendResponse( {result: true});
