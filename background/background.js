@@ -17,14 +17,16 @@ let curMemes = []
 /**
 *  The function for getting memes via API.
 */
-function getMaMeme(){
+function getMaMeme(memeAmount){
   
+  console.log("memeAmount " + memeAmount)
   
-  
-  HttpClientObj.httpClientGet('https://meme-api.herokuapp.com/gimme', function(response) {
-  console.log("GOT THE MEME");
-  console.log("THE MEME URL : " + JSON.parse(response).url);
-  curMemes.push( JSON.parse(response).url)
+  HttpClientObj.httpClientGet('https://ad-memer-web-scraper.herokuapp.com/getMemes/' + memeAmount , function(response) {
+  console.log("GOT THE MEME RAW " + response);
+  console.log("THE MEME URL : " + response);
+
+
+  curMemes = response
   
 })
 
@@ -37,15 +39,8 @@ chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
     
     if(request.command === "giveMeme"){
-      
-      for(let i = 0; i < request.memeAmount; i ++){
-        (async () => {
-          getMaMeme();
-          console.log("get ma meme #" + i);
-        })();
-        
-        
-      }
+      getMaMeme(request.memeAmount);
+
       sendResponse( {result: curMemes});
     }else{
       sendResponse( {result: true});

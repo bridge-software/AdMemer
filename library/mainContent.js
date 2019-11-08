@@ -30,7 +30,7 @@ async function main()
     let checkDomLoaded;
     let apiResult;
     const adReplacer = await import(adReplacerURL);
-    //apiResult = await getMemeFromApi(10);
+    apiResult = await getMemeFromApi(10);
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
 
