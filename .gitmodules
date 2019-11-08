@@ -1,0 +1,3 @@
+[submodule "ad-memer-web-scraper"]
+	path = ad-memer-web-scraper
+	url = https://git.heroku.com/ad-memer-web-scraper.git
