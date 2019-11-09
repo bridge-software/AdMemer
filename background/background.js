@@ -23,10 +23,10 @@ function getMaMeme(memeAmount){
   
   HttpClientObj.httpClientGet('https://ad-memer-web-scraper.herokuapp.com/getMemes/' + memeAmount , function(response) {
   console.log("GOT THE MEME RAW " + response);
-  console.log("THE MEME URL : " + response);
+  console.log("THE MEME URL : " + JSON.parse(response).memes[0]);
   
   
-  curMemes = response
+  curMemes = JSON.parse(response).memes
   
 })
 
