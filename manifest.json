@@ -33,7 +33,8 @@
       "/library/adReplacer.js",
       "/library/adFilter.js",
       "/resources/hosts.json",
-      "/utilities/httpClient.js"
+      "/utilities/httpClient.js",
+      "/library/imageScaler.js"
     ],
 
     "manifest_version": 2

@@ -27,7 +27,18 @@ function getMaMeme(memeAmount){
   
   
   curMemes = JSON.parse(response).memes
+  chrome.storage.sync.set({memes:curMemes}, function(){
+    console.log('Memes are saved to storage')
+  })
   
+  chrome.storage.sync.set({memeWidths:JSON.parse(response).width}, function(){
+    console.log('MemeWidths are saved to storage' + JSON.parse(response).width)
+  })
+
+  chrome.storage.sync.set({memeHeights:JSON.parse(response).height}, function(){
+    console.log('MemeHeights are saved to storage' + JSON.parse(response).height)
+  })
+
 })
 
 }
