@@ -33,26 +33,18 @@ const replaceAds = async (memeArray) =>{
         filteredFrameList.forEach(frameElement => {
             
             let newImgTag = document.createElement("img");
-            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-            //let randomNum = Math.round(Math.random() * 10)
-           
+            let newWidth = scaledImgList[index].style.width;
+            let newHeight = scaledImgList[index].style.height;
+            
             console.log("MEME ARRAY ");
             console.log(scaledImgList);
             console.log("img at index "+scaledImgList[index]);
+
+            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            //let randomNum = Math.round(Math.random() * 10)
            
-            // !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!
-            //src is not comign from returned imageScaler object
             newImgTag.src = scaledImgList[index].src;
-
-            // !!!!!WARNING !!!! BBQ MASTER !!!!! WARNING !!!!!!
-            // styleı da set etmeyi unutma btw. np.
-            let newWidth = scaledImgList[index].style.width;
-            let newHeight = scaledImgList[index].style.height;
-
             newImgTag.setAttribute("style", "width:" + newWidth + ";height:" + newHeight+";"  )
-            ///////////////////////////////////////////////////////////////
-             
-
 
             frameElement.parentNode.replaceChild(newImgTag, frameElement);
             index++;     
@@ -74,20 +66,22 @@ const replaceAds = async (memeArray) =>{
         //this loop is for test
         filteredDivList.forEach (divElement =>  {
             
-            console.log(filteredDivList);
-            console.log("MEME ARRAY ");
-            console.log(memeArray);
+            
             let newImgTag = document.createElement("img");
+            let newWidth = scaledImgList[index].style.width;
+            let newHeight = scaledImgList[index].style.height;
+            
+            console.log("MEME ARRAY ");
+            console.log(scaledImgList);
+            console.log("img at index "+scaledImgList[index]);
             //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             // let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
             
-
-            // !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!
-            //src is not comign from returned imageScaler object
             newImgTag.src = scaledImgList[index].src;
-
-
+            newImgTag.src = scaledImgList[index].src;
+            newImgTag.setAttribute("style", "width:" + newWidth + ";height:" + newHeight+";"  )
+            
             if(divElement.tagName == "A" && divElement.parentNode != undefined)
             {
                 console.log("THIS IS TAG A");
@@ -103,7 +97,9 @@ const replaceAds = async (memeArray) =>{
                 console.log("replacing a div "+divElement.id);
                 divElement.parentNode.replaceChild(newImgTag, divElement);    
             }
+            index++;
         });
+        index = 0;
     } 
     else {console.log("Division List Empty !");}
 };

@@ -87,10 +87,15 @@ async function filterDivisions (divList){
             else
             {console.log("Source has not found in host links !\n");}    
         }
+        /*//this stattement sould be in main "if" and also in after src "if"
+        else if (div.lazyload == true)
+        {
+            add this div to list and false its lazyload attribute !
+        }
+        */
         else if (divElement.hasChildNodes())
         {  
-            //MAYBE MAKE THESE AS FUNC?
-            
+        
             //After getting the possible ad div, search for ad tags such as link ( a ) and image ( img )
             linkElements = divElement.getElementsByTagName("a");
             tempArray = filterHrefAndSource(linkElements,jsonOBJ);

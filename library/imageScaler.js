@@ -63,8 +63,6 @@ const memeHeightPromise = new Promise(function (resolve){
 
 
 
-//cant get source on objects that have been returned from image scaler.
-
 
 
 /**
@@ -108,9 +106,9 @@ async function scaleImages (adLocations) {
     
 }
 
-
-//image scaler is not setting the height and weight of the upper elements !
-// Intendent or forgotten ?
+//                                                  !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!
+//  image scaler is not setting the height and weight of the upper elements !
+//  Intendent or forgotten ?
 
 /**
  * 
