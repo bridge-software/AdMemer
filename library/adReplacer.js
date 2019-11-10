@@ -44,6 +44,16 @@ const replaceAds = async (memeArray) =>{
             //src is not comign from returned imageScaler object
             newImgTag.src = scaledImgList[index].src;
 
+            // !!!!!WARNING !!!! BBQ MASTER !!!!! WARNING !!!!!!
+            // styleı da set etmeyi unutma btw. np.
+            let newWidth = scaledImgList[index].style.width;
+            let newHeight = scaledImgList[index].style.height;
+
+            newImgTag.setAttribute("style", "width:" + newWidth + ";height:" + newHeight+";"  )
+            ///////////////////////////////////////////////////////////////
+             
+
+
             frameElement.parentNode.replaceChild(newImgTag, frameElement);
             index++;     
         });

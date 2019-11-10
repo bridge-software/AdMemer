@@ -89,13 +89,14 @@ async function scaleImages (adLocations) {
         adLocations.forEach(element => {
             console.log("NEW ELEMENT FROM BERKAI " + element)
             let result = getStylishElements(element,memesIndex,memes,memeWidths[memesIndex],memeHeights[memesIndex])
-            
+            result.src = memes[memesIndex];
             Object.assign(result.style,{
                 width  : "300px",
                 height : "300px"
             })
             
-            console.log("result is : " + result.style.width + "with id : " + result.id)
+
+            console.log("result is : " + result.style.width + "with src" + memes[memesIndex])
             newElements.push(result)
             memesIndex++;
             
