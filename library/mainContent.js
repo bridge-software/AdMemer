@@ -33,7 +33,9 @@ async function main()
     apiResult = await getMemeFromApi(10);
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
-
+    console.log("API RESULT");
+    console.log(apiResult[0]);
+    
     console.log("checkResult "+checkResult +" checkDomLoaded "+checkDomLoaded);
 
     if(checkResult == true && checkDomLoaded == true)

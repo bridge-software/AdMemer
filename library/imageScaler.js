@@ -61,6 +61,12 @@ const memeHeightPromise = new Promise(function (resolve){
     });
 })
 
+
+
+//cant get source on objects that have been returned from image scaler.
+
+
+
 /**
  *  This function is the main function for image scaling.
  *  Makes preperations for the ad finding algorithm to execute then scales the result of it after that returns the final product.
@@ -102,13 +108,16 @@ async function scaleImages (adLocations) {
 }
 
 
+//image scaler is not setting the height and weight of the upper elements !
+// Intendent or forgotten ?
+
 /**
  * 
- * @param {first element which is passed} currentLocation 
- * @param {number} memesIndex 
- * @param {meme array} memes 
- * @param {number} memeWidth 
- * @param {number} memeHeight 
+ * @param {HTMLElement} currentLocation first element which is passed
+ * @param {Number} memesIndex 
+ * @param {Array} memes 
+ * @param {Number} memeWidth 
+ * @param {Number} memeHeight 
  */
 function getStylishElements(currentLocation,memesIndex,memes,memeWidth,memeHeight){
     

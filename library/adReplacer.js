@@ -1,6 +1,8 @@
 'use strict';
 
 const adFilterURL = chrome.runtime.getURL("./library/adFilter.js");
+const imageScalerURL = chrome.runtime.getURL("./library/imageScaler.js");
+
 /**
  * Locates advertisement and then replaces it with memes
  * 
@@ -11,31 +13,45 @@ const replaceAds = async (memeArray) =>{
 
     console.log("document.readyState atm =  "+document.readyState);
     const adFilter = await import(adFilterURL);
+    const imageScaler = await import(imageScalerURL);
+
     let frameList = locateAdsFrame();
     let divList = locateAdsDiv();
     let filteredFrameList = [];
     let filteredDivList = [];
-    
+    let scaledImgList = [];
+    let index = 0;
     if (frameList != undefined)
     {
         filteredFrameList = await adFilter.filterFrames(frameList);
+        scaledImgList = await imageScaler.scaleImages(filteredFrameList);
+
         console.log(filteredFrameList);
+        console.log(scaledImgList);
         
         //this loop is for test
         filteredFrameList.forEach(frameElement => {
             
             let newImgTag = document.createElement("img");
-            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-            
+            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             //let randomNum = Math.round(Math.random() * 10)
-            //newImgTag.src = memeArray[randomNum];
-            frameElement.parentNode.replaceChild(newImgTag, frameElement);     
+           
+            console.log("MEME ARRAY ");
+            console.log(scaledImgList);
+            console.log("img at index "+scaledImgList[index]);
+           
+            // !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!
+            //src is not comign from returned imageScaler object
+            newImgTag.src = scaledImgList[index].src;
+
+            frameElement.parentNode.replaceChild(newImgTag, frameElement);
+            index++;     
         });
+        index = 0;
         
         //real iteration is like tihs
         //filteredFrameList = await adFilter.filterFrames(frameList);
-        //start imageScaler (gets images from extension storage and also gets filtered ads locations from adReplacer then scales them as ad image size)
-        //call both with await
+        //scaledImgList = await imageScaler.scaleImages(filteredFrameList);
         //then createNewDomElements (scaledMemeArray,adTagArray)
         //then replace all via loop
     }
@@ -49,12 +65,19 @@ const replaceAds = async (memeArray) =>{
         filteredDivList.forEach (divElement =>  {
             
             console.log(filteredDivList);
-            
+            console.log("MEME ARRAY ");
+            console.log(memeArray);
             let newImgTag = document.createElement("img");
-            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-            
-            //let randomNum = Math.round(Math.random() * 10)
+            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            // let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
+            
+
+            // !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!
+            //src is not comign from returned imageScaler object
+            newImgTag.src = scaledImgList[index].src;
+
+
             if(divElement.tagName == "A" && divElement.parentNode != undefined)
             {
                 console.log("THIS IS TAG A");
@@ -70,11 +93,9 @@ const replaceAds = async (memeArray) =>{
                 console.log("replacing a div "+divElement.id);
                 divElement.parentNode.replaceChild(newImgTag, divElement);    
             }
-             
         });
     } 
     else {console.log("Division List Empty !");}
-
 };
 
 /**
