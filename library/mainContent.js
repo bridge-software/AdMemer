@@ -11,10 +11,53 @@ const storagePromise = new Promise(function(resolve, reject) {
 });
 //promise to get stage state
 const pageLoadPromise = new Promise(function(resolve, reject) {
-    window.addEventListener('load', (event) => {
+    
+    document.addEventListener('readystatechange', (event) => {
+        console.log(`readystate: ${document.readyState}\n`);
+        if (document.readyState == "complete")
+        {
+            console.log("document frames at ready state complete");
+            console.log(document.body.getElementsByTagName('iframe'));
+            
+            
+            /*chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
+                console.log(response.result);
+              });*/
+            resolve(true);
+        }
+        if (document.readyState == "interactive")
+        {
+            /*chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
+                console.log(response.result);
+              });*/ 
+            console.log("document frames at ready state interactive");
+            console.log(document.body.getElementsByTagName('iframe'));
+            
+            
+        }
+    });
+
+
+    //ONLY DOM ELEMENTS LOADED
+    /*window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed');
+        console.log("document frames at DOMContentLoaded");
+        console.log(document.body.getElementsByTagName('iframe'));
+        resolve(true);
+    });*/
+
+    //PAGE FULLY LOADED
+    /*window.addEventListener('load', (event) => {
         console.log('\npromise:Page is fully loaded\n');
         resolve(true);
-      });
+      });*/
+
+      /*ORDER OF Document/WINDOW load events
+        1 readystate: interactive
+        2 DOMContentLoaded
+        3 readystate: complete
+        4 load
+      */
 });
 
 // FUNCTIONS
@@ -33,6 +76,7 @@ async function main()
     apiResult = await getMemeFromApi(10);
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
+    
     console.log("API RESULT");
     console.log(apiResult[0]);
     
@@ -41,7 +85,8 @@ async function main()
     if(checkResult == true && checkDomLoaded == true)
     {
         console.log("REPLACER STARTS..");
-        await adReplacer.replaceAds(apiResult); 
+        await adReplacer.replaceAds(apiResult);
+        
     }    
 
     //ADD AN UPDATE LISTENER FOR LATER ADS

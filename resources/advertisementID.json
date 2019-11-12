@@ -2,19 +2,26 @@
     "advertisementIDs": [
         
         "goodle-ads",
-        "ads",
         "google_ads",
         "ads_goodle",
         "ad_google",
         "goodle-ad",
-        "advertisemt",
+        "advertisement",
         "reklamlar",
         "google-reklam",
         "reklam-google",
         "reklam",
         "ad-header",
         "ad-body",
-        "ad-class"
+        "ad-class",
+        "top-ads",
+        "ads-banner",
+        "adbanner",
+        "bannerAd",
+        "ads-",
+        "-ads",
+        "_ads",
+        "ads_"
 
     ]
 }

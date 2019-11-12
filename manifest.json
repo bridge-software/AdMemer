@@ -4,10 +4,18 @@
     "name": "AdMemer",
     "version": "1.0",
     "description": "Finds ads and replaces them with a funny meme!",
-    "permissions": ["activeTab","declarativeContent","storage"],
+    "permissions": 
+    ["tabs",
+      "activeTab",
+      "declarativeContent",
+      "storage",
+      "webRequest",
+      "webRequestBlocking",
+      "pageCapture",
+      "*://*/*"],
     "background": {
         "scripts": ["/background/background.js"],
-        "persistent": false
+        "persistent": true
       },
     "page_action": {
         "default_popup": "index.html",
@@ -34,6 +42,9 @@
       "/library/adFilter.js",
       "/resources/hosts.json",
       "/utilities/httpClient.js",
+      "/utilities/linkSlicer.js",
+      "/background/test.js",
+      "/resources/advertisementID.json",
       "/library/imageScaler.js"
     ],
 

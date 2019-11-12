@@ -119,7 +119,8 @@ async function scaleImages (adLocations) {
  * @param {Number} memeHeight 
  */
 function getStylishElements(currentLocation,memesIndex,memes,memeWidth,memeHeight){
-    
+    //                                                  !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!     
+    //sometimes a elemets comes with a promise pending on it and fucks this func, make this fail safe.
     let hasWidth = false, hasHeight = false; 
     let tempLocation = currentLocation;
     while((!hasWidth || !hasHeight) && tempLocation != undefined){

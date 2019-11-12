@@ -11,7 +11,6 @@ const imageScalerURL = chrome.runtime.getURL("./library/imageScaler.js");
  */
 const replaceAds = async (memeArray) =>{
 
-    console.log("document.readyState atm =  "+document.readyState);
     const adFilter = await import(adFilterURL);
     const imageScaler = await import(imageScalerURL);
 
@@ -21,6 +20,12 @@ const replaceAds = async (memeArray) =>{
     let filteredDivList = [];
     let scaledImgList = [];
     let index = 0;
+    console.log("AAAAAAAAAAAAA");
+    console.log(frameList);
+ 
+    
+    console.log("IFRAME REPLACEMENT STARTS");
+    
     if (frameList != undefined)
     {
         filteredFrameList = await adFilter.filterFrames(frameList);
@@ -36,13 +41,13 @@ const replaceAds = async (memeArray) =>{
             let newWidth = scaledImgList[index].style.width;
             let newHeight = scaledImgList[index].style.height;
             
-            console.log("MEME ARRAY ");
-            console.log(scaledImgList);
+            //console.log("MEME ARRAY ");
+            //console.log(scaledImgList);
             console.log("img at index "+scaledImgList[index]);
 
-            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             //let randomNum = Math.round(Math.random() * 10)
-           
+            //newImgTag.src = memeArray[randomNum];
             newImgTag.src = scaledImgList[index].src;
             newImgTag.setAttribute("style", "width:" + newWidth + ";height:" + newHeight+";"  )
 
@@ -59,10 +64,16 @@ const replaceAds = async (memeArray) =>{
     }
     else
     {console.log("Frame List Empty !");}
-
+    
+    divList = locateAdsDiv();
+    console.log("DIVISION REPLACEMENT STARTS");
     if (divList != undefined) 
     {
         filteredDivList = await adFilter.filterDivisions(divList);
+        scaledImgList = await imageScaler.scaleImages(filteredDivList);
+
+        console.log(filteredDivList);
+        console.log(scaledImgList);
         //this loop is for test
         filteredDivList.forEach (divElement =>  {
             
@@ -70,12 +81,10 @@ const replaceAds = async (memeArray) =>{
             let newImgTag = document.createElement("img");
             let newWidth = scaledImgList[index].style.width;
             let newHeight = scaledImgList[index].style.height;
-            
-            console.log("MEME ARRAY ");
-            console.log(scaledImgList);
+
             console.log("img at index "+scaledImgList[index]);
             //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
-            // let randomNum = Math.round(Math.random() * 10)
+            //let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
             
             newImgTag.src = scaledImgList[index].src;
@@ -84,15 +93,15 @@ const replaceAds = async (memeArray) =>{
             
             if(divElement.tagName == "A" && divElement.parentNode != undefined)
             {
-                console.log("THIS IS TAG A");
+                console.log("THIS IS TAG A, REPLACING IT");
                 divElement.parentNode.replaceChild(newImgTag, divElement); 
             }
             else if (divElement.tagName == "img" && divElement.parentNode != undefined)
             {
-                console.log("THIS IS TAG IMG");
+                console.log("THIS IS TAG IMG, REPLACING IT");
                 divElement.parentNode.replaceChild(newImgTag, divElement); 
             }
-            else
+            else if(divElement.parentNode != undefined)
             {
                 console.log("replacing a div "+divElement.id);
                 divElement.parentNode.replaceChild(newImgTag, divElement);    
@@ -102,6 +111,9 @@ const replaceAds = async (memeArray) =>{
         index = 0;
     } 
     else {console.log("Division List Empty !");}
+
+    console.log("\n\n REPLACEMENT IS OVER \n\n")
+    
 };
 
 /**
@@ -154,6 +166,8 @@ function locateAdsDiv (){
  */
 function locateAdsFrame (){
     let frameList = document.body.getElementsByTagName('iframe');
+    console.log(frameList);
+    
     let possibleAdFrames = [];
     for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
     {
