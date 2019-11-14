@@ -86,6 +86,19 @@ const replaceAds = async (memeArray) =>{
                 let memesIndex = 0;
                 adLocations.forEach(element => {
                     
+                    if(element instanceof Promise){
+                        console.log("ADNAN promise has come")
+                        if(element.style != undefined && element != null){
+                            Object.assign(element.style,{
+                                width  : "300px",
+                                height : "300px"
+                            })
+                            
+                            newElements.push(element)
+                        }
+                        return;
+                    }
+                    
                     console.log("NEW ELEMENT FROM BERKAI " + element)
                     let memeDimensions = {
                         "height" : parseInt(memeHeights[memesIndex]),
@@ -98,8 +111,8 @@ const replaceAds = async (memeArray) =>{
                     //     height : "300px"
                     // })
                     
-                    if(result == undefined)
-                        console.log("ADNAN memeIndex : "  + memesIndex + " element : " + element + " is undefined")
+                    if(result.isPending)
+                    console.log("ADNAN memeIndex : "  + memesIndex + " element : " + element + " is undefined")
                     
                     //console.log("result is : " + result.style.width + "with src" + memes[memesIndex])
                     newElements.push(result)
@@ -143,6 +156,12 @@ const replaceAds = async (memeArray) =>{
         function getStylishElements(currentLocation,memesIndex,memes,memeDimensions){
             //                                                  !!!!! WARNING !!!!!  ADNONE !!!!! WARNING !!!!!     
             //sometimes a elemets comes with a promise pending on it and fucks this func, make this fail safe.
+            
+            if(currentLocation.isPending){
+                console.log("IT IS PENDING!")
+                return currentLocation;
+            }
+            
             let hasWidth = false, hasHeight = false; 
             let tempLocation = currentLocation;
             
@@ -213,7 +232,7 @@ const replaceAds = async (memeArray) =>{
                     return tempLocation
                 }
                 console.log("ADNAN " + tempLocation.parentElement)
-
+                
                 if(tempLocation.parentElement == undefined || tempLocation.parentElement == null){
                     console.log("ADNAN IMPORTANT entered undefined state")
                     let currentLocationDimensions = {
@@ -230,24 +249,24 @@ const replaceAds = async (memeArray) =>{
                     return currentLocation;
                 }
                 
-                const newLoc = new Promise ( function(resolve) {
-                    return new Promise(function (resolve){
-                        resolve(tempLocation.parentElement)
-                    })
-                }).then(result => {
-                    tempLocation = result;
-                    console.log("ADNAN THE REULST IS " + result)
-                    resolve(tempLocation)
-                })
+                // const newLoc = new Promise ( function(resolve) {
+                //     return new Promise(function (resolve){
+                //         resolve(tempLocation.parentElement)
+                //     })
+                // }).then(result => {
+                //     tempLocation = result;
+                //     console.log("ADNAN THE REULST IS " + result)
+                //     resolve(tempLocation)
+                // })
                 
-                tempLocation = newLoc
+                tempLocation = tempLocation.parentElement
                 
                 
             }
             
             return tempLocation;
             
-           
+            
         }
         
         
