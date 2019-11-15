@@ -11,31 +11,33 @@ const storagePromise = new Promise(function(resolve, reject) {
 });
 //promise to get stage state
 const pageLoadPromise = new Promise(function(resolve, reject) {
+
+    //PAGE FULLY LOADED
+    window.addEventListener('load', (event) => {
+        console.log('\npromise:Page is fully loaded\n');
+        resolve(true);
+      });
     
-    document.addEventListener('readystatechange', (event) => {
+     /*document.addEventListener('readystatechange', (event) => {
         console.log(`readystate: ${document.readyState}\n`);
         if (document.readyState == "complete")
         {
             console.log("document frames at ready state complete");
-            console.log(document.body.getElementsByTagName('iframe'));
-            
-            
-            /*chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
-                console.log(response.result);
-              });*/
-            resolve(true);
+            //console.log(document.body.getElementsByTagName('iframe'));
+            resolve(true);       
+           
         }
         if (document.readyState == "interactive")
         {
-            /*chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
-                console.log(response.result);
-              });*/ 
+            
+           chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
+                console.log(response.result);});
             console.log("document frames at ready state interactive");
-            console.log(document.body.getElementsByTagName('iframe'));
-            
-            
+            //console.log(document.body.getElementsByTagName('iframe'));
+            //resolve(true);
+
         }
-    });
+    });*/
 
 
     //ONLY DOM ELEMENTS LOADED
@@ -45,12 +47,6 @@ const pageLoadPromise = new Promise(function(resolve, reject) {
         console.log(document.body.getElementsByTagName('iframe'));
         resolve(true);
     });*/
-
-    //PAGE FULLY LOADED
-    /*window.addEventListener('load', (event) => {
-        console.log('\npromise:Page is fully loaded\n');
-        resolve(true);
-      });*/
 
       /*ORDER OF Document/WINDOW load events
         1 readystate: interactive
@@ -76,9 +72,6 @@ async function main()
     apiResult = await getMemeFromApi(10);
     checkResult = await extensionStoreListener();
     checkDomLoaded = await pageLoadListener();
-    
-    console.log("API RESULT");
-    console.log(apiResult[0]);
     
     console.log("checkResult "+checkResult +" checkDomLoaded "+checkDomLoaded);
 

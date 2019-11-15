@@ -12,6 +12,7 @@
         "reklam-google",
         "reklam",
         "ad-header",
+        "bannerAd",
         "ad-body",
         "ad-class",
         "top-ads",
@@ -21,7 +22,9 @@
         "ads-",
         "-ads",
         "_ads",
-        "ads_"
-
+        "ads_",
+        "-ad",
+        "ad-"
+        
     ]
 }

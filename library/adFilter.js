@@ -19,45 +19,43 @@ async function filterFrames  (frameList){
     let innerDoc;
     let slicedLink = "";
 
-    frameList.forEach(frameElement => {
-        
-        innerDoc = frameElement.contentDocument;
-
-        if(innerDoc != undefined )
-        {
-            console.log("inner doc found for src "+frameElement.src+" id "+frameElement.id);       
-            if(innerDoc.body.getElementsByTagName("iframe").length == 0 && innerDoc.images.length == 0)
-            {console.log("Misunderstood,this frame has no ad!");}
-            else{
-                console.log("ad found in frame, src "+frameElement.src+" id "+frameElement.id);  
-                filteredFrames.push(frameElement);
-            }
-        }
-        /*else if (frameElement.className.toString().indexOf("lazy") > -1 )
-        {
-            console.log("FOUND A AD IN FRAME AND IT IS LAZY LOAD !\n Blasphemy !\n ");
-            filteredFrames.push(frameElement);
-        }*/
-        else if (frameElement.hasAttribute("src") ) 
-        {
-            console.log("Frame has no inner doc,but has source\n");
-            slicedLink = slicer.linkSlicer(frameElement.src.toString())
-
-            if(jsonOBJ.advertisementLinks.includes(slicedLink))
+    if(frameList != undefined)
+    {
+        frameList.forEach(frameElement => {
+            innerDoc = frameElement.contentDocument;
+            if(innerDoc != undefined )
             {
-                console.log("SOURCE HAS BEEN FOUND IN LINKS");
+                console.log("inner doc found for src "+frameElement.src+" id "+frameElement.id);       
+                if(innerDoc.body.getElementsByTagName("iframe").length == 0 && innerDoc.images.length == 0)
+                {console.log("Misunderstood,this frame has no ad!");}
+                else{
+                    console.log("ad found in frame, src "+frameElement.src+" id "+frameElement.id);  
+                    filteredFrames.push(frameElement);
+                }
+            }
+            /*else if (frameElement.className.toString().indexOf("lazy") > -1 )
+            {
+                console.log("FOUND A AD IN FRAME AND IT IS LAZY LOAD !\n Blasphemy !\n ");
                 filteredFrames.push(frameElement);
+            }*/
+            else if (frameElement.hasAttribute("src") ) 
+            {
+                console.log("Frame has no inner doc,but has source\n");
+                slicedLink = slicer.linkSlicer(frameElement.src.toString())
+                if(jsonOBJ.advertisementLinks.includes(slicedLink))
+                {
+                    console.log("SOURCE HAS BEEN FOUND IN LINKS");
+                    filteredFrames.push(frameElement);
+                }
+                else
+                {console.log("Source has not found in host links !\n");}
+                slicedLink = "";    
             }
             else
-            {console.log("Source has not found in host links !\n");}
-            slicedLink = "";    
-        }
-        else
-        {console.log("This frame"+ frameElement.id +" has no inner doc and has no source\n");}
-
-        
-    });
-    return filteredFrames
+            {console.log("This frame"+ frameElement.id +" has no inner doc and has no source\n");}
+        });
+    }
+    return filteredFrames;
 }
 
 
@@ -85,11 +83,12 @@ async function filterDivisions (divList){
     let slicedLink = "";
     let tempArray = [];
 
-    //filteredDivs = filteredDivs.concat(framelessDivAds(divList,jsonObjIDS));
+    filteredDivs = filteredDivs.concat(framelessDivAds(divList,jsonObjIDS));
 
     //It looks already decided divisions again, make framelessDivAds() remove decided elements from "divList"
-    divList.forEach(divElement => {
-        
+    for (let index = 0; index < divList.length; index++) {
+        const divElement = divList[index];
+
         slicedLink = "";  
         if(divElement.hasAttribute("src"))
         {
@@ -114,16 +113,20 @@ async function filterDivisions (divList){
         
             //After getting the possible ad div, search for ad tags such as link ( a ) and image ( img )
             linkElements = divElement.getElementsByTagName("a");
-            tempArray = filterHrefAndSource(linkElements,jsonOBJ);
+            await filterHrefAndSource(linkElements,jsonOBJ).then( (returnedArray)=>{
+                tempArray = returnedArray;
+            });
             filteredDivs = filteredDivs.concat(tempArray);
             tempArray = [];
 
             imgElements = divElement.getElementsByTagName("img");
-            tempArray = filterHrefAndSource(imgElements,jsonOBJ);
+            await filterHrefAndSource(imgElements,jsonOBJ).then( (returnedArray)=>{
+                tempArray = returnedArray;
+            });
             filteredDivs = filteredDivs.concat(tempArray);
             tempArray = [];
         }
-    });
+    };
     return filteredDivs;
 }
 /**
@@ -173,20 +176,21 @@ async function filterHrefAndSource (tagArray,jsonOBJ)
 function framelessDivAds (tagArray,jsonOBJ){
     console.log("FILTERING FOR AD-DIVS STARTS");
     let filteredTags = [];
+    console.log(tagArray);
 
     for (let index = 0; index < tagArray.length; index++) {
         const item = tagArray[index];
         
-        console.log("filtering for id = "+item.id+" class = "+item.className );
+        console.log("\nfiltering for id = "+item.id+" class = "+item.className );
         
         jsonOBJ.advertisementIDs.forEach(element => {
 
             console.log("include num "+item.className.indexOf(element));
             
             if(item.className.indexOf(element) > -1)
-            {console.log(element+" ==> Found ad division via class name");filteredTags.push(item);}
+            {console.log(item.className+" ==> Found ad division via class name\n");filteredTags.push(item);}
             else if(item.id.indexOf(element) > -1)
-            {console.log(element+" ==> Found ad division via id");filteredTags.push(item)}
+            {console.log(item.id+" ==> Found ad division via id\n");filteredTags.push(item)}
         });
     }
     console.log(filteredTags);

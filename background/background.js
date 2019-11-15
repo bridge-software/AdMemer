@@ -20,7 +20,7 @@ let curMemes = [];
 
 })();
 
-async function requestBlocker (){
+/*async function requestBlocker (){
 
   let slicer = await import(linkSlicerURL);
   let imgUrlToLook = "";
@@ -36,13 +36,45 @@ async function requestBlocker (){
           imgUrlToLook = details.url
           console.log(imgUrlToLook);
         }
-        return {cancel: jsonOBJ.advertisementLinks.indexOf(url)  != -1};
+        return {cancel: jsonOBJ.advertisementLinks.indexOf(url)  != -1};//we can use redirect here, it works as same as our div filter.
+        //redirectUrl:"https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+        //Tho redirect seems more solid since it looks wider dataset(host.json) then divfilter(adsID.json).
+        //But redirecting needs very good filtering because it causes redirect blocking by the website.Because it redirects everytime the site element to a url when a blocking elemet comes.
+        //and scaling images is very hard  with it!
+        
+        //TRY REQUEST HEADERS
+        //HttpHeaders	(optional) requestHeaders	
+        //Only used as a response to the onBeforeSendHeaders event. If set, the request is made with these request headers instead.
+
       },
-      {urls: ["<all_urls>"]},
-      ["blocking"]
+      {urls: ["<all_urls>"]},//filter
+      ["blocking"] //response
       );
     
-}
+let tabsGLOBAL;
+   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    
+    tabsGLOBAL = tabs[0].id;
+    chrome.webNavigation.getAllFrames( {tabId: tabs[0].id}, function (frameArray){
+      console.log("FRAMES = ");
+      console.log(frameArray);
+    });
+
+    chrome.webNavigation.onCommitted.addListener(function (details){
+      console.log("details = ");
+      console.log(details);
+      console.log("tabs = "+tabsGLOBAL);
+      
+      chrome.webNavigation.getFrame({tabId:tabsGLOBAL , frameId:details.frameId}, function (gotFrame){
+        console.log("tabs = "+tabsGLOBAL);
+        console.log("gotFrame = ");
+        console.log(gotFrame);
+      })
+    },{TransitionQualifier: ["client_redirect"]}
+    );
+
+  });
+}*/
 
 
 /**
@@ -85,7 +117,7 @@ chrome.runtime.onMessage.addListener(
     }
     else if( request.command === "startBlocker")
     {
-      requestBlocker();
+      //requestBlocker();
       sendResponse( {result: "blockerStarted"});
     }
     else

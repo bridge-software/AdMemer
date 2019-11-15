@@ -20,7 +20,7 @@ const replaceAds = async (memeArray) =>{
     let filteredDivList = [];
     let scaledImgList = [];
     let index = 0;
-    console.log("AAAAAAAAAAAAA");
+
     console.log(frameList);
  
     
@@ -28,6 +28,7 @@ const replaceAds = async (memeArray) =>{
     
     if (frameList != undefined)
     {
+        console.log(frameList);
         filteredFrameList = await adFilter.filterFrames(frameList);
         scaledImgList = await imageScaler.scaleImages(filteredFrameList);
 
@@ -43,9 +44,9 @@ const replaceAds = async (memeArray) =>{
             
             //console.log("MEME ARRAY ");
             //console.log(scaledImgList);
-            console.log("img at index "+scaledImgList[index]);
+            //console.log("img at index "+scaledImgList[index]);
 
-            newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
+            //newImgTag.src = "https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
             //let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
             newImgTag.src = scaledImgList[index].src;
@@ -69,7 +70,9 @@ const replaceAds = async (memeArray) =>{
     console.log("DIVISION REPLACEMENT STARTS");
     if (divList != undefined) 
     {
-        filteredDivList = await adFilter.filterDivisions(divList);
+
+        let tempArr = await adFilter.filterDivisions(divList);
+        filteredDivList = filteredDivList.concat(tempArr);
         scaledImgList = await imageScaler.scaleImages(filteredDivList);
 
         console.log(filteredDivList);
@@ -87,7 +90,7 @@ const replaceAds = async (memeArray) =>{
             //let randomNum = Math.round(Math.random() * 10)
             //newImgTag.src = memeArray[randomNum];
             
-            newImgTag.src = scaledImgList[index].src;
+            
             newImgTag.src = scaledImgList[index].src;
             newImgTag.setAttribute("style", "width:" + newWidth + ";height:" + newHeight+";"  )
             
@@ -161,14 +164,14 @@ function locateAdsDiv (){
 /**
  * Locate ads in iframe tags.
  * 
- * it takes all of the iframes and if it has a inner document, selects it as a possible advertisement tag.
  * @returns {Array} array that holds possible ad tags
  */
 function locateAdsFrame (){
     let frameList = document.body.getElementsByTagName('iframe');
+    let possibleAdFrames = [];
+    console.log("frames ");
     console.log(frameList);
     
-    let possibleAdFrames = [];
     for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
     {
         console.log("\niframe "+ frameIndex +
@@ -177,6 +180,8 @@ function locateAdsFrame (){
         console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
         possibleAdFrames.push(frameList[frameIndex]);
     }
+    console.log(possibleAdFrames);
+    
     return possibleAdFrames;
 } 
 
