@@ -18,6 +18,8 @@ async function filterFrames  (frameList){
     let filteredFrames = [];
     let innerDoc;
     let slicedLink = "";
+    console.log(frameList);
+    
 
     if(frameList != undefined)
     {

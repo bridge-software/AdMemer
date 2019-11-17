@@ -25,6 +25,8 @@ const replaceAds = async (memeArray) =>{
  
     
     console.log("IFRAME REPLACEMENT STARTS");
+ 
+    
     
     if (frameList != undefined)
     {
@@ -150,7 +152,8 @@ function createNewDomElements (scaledMemeArray,adTagArray){
  * @returns {Array} array that holds possible ad tags
  */
 function locateAdsDiv (){
-    let divList = document.body.getElementsByTagName('div');
+    const htmlDivList = document.body.getElementsByTagName('div');
+    let divList = Array.from(htmlDivList);
     let childNum = 0;
     let possibleAdDivisions = [];
     for(let divIndex = 0; divIndex < divList.length; divIndex++)
@@ -167,11 +170,12 @@ function locateAdsDiv (){
  * @returns {Array} array that holds possible ad tags
  */
 function locateAdsFrame (){
-    let frameList = document.body.getElementsByTagName('iframe');
+    const htmlFrameList = document.getElementsByTagName('iframe');
+    let frameList = Array.from(htmlFrameList);
     let possibleAdFrames = [];
     console.log("frames ");
     console.log(frameList);
-    
+
     for(let frameIndex = 0; frameIndex < frameList.length; frameIndex++)
     {
         console.log("\niframe "+ frameIndex +
@@ -180,7 +184,6 @@ function locateAdsFrame (){
         console.log("\n SOURCE OF FRAME "+frameList[frameIndex].src + "\n");
         possibleAdFrames.push(frameList[frameIndex]);
     }
-    console.log(possibleAdFrames);
     
     return possibleAdFrames;
 } 

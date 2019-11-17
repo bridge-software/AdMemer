@@ -65,13 +65,13 @@ const pageLoadPromise = new Promise(function(resolve, reject) {
  */
 async function main()
 {
-    let checkResult;
+    /*let checkResult;
     let checkDomLoaded;
-    let apiResult;
+    let apiResult;*/
     const adReplacer = await import(adReplacerURL);
-    apiResult = await getMemeFromApi(10);
-    checkResult = await extensionStoreListener();
-    checkDomLoaded = await pageLoadListener();
+    const apiResult = await getMemeFromApi(10);
+    const checkResult = await extensionStoreListener();
+    const checkDomLoaded = await pageLoadListener();
     
     console.log("checkResult "+checkResult +" checkDomLoaded "+checkDomLoaded);
 
