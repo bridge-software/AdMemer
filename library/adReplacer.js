@@ -21,13 +21,8 @@ const replaceAds = async (memeArray) =>{
     let scaledImgList = [];
     let index = 0;
 
-    console.log(frameList);
- 
-    
     console.log("IFRAME REPLACEMENT STARTS");
  
-    
-    
     if (frameList != undefined)
     {
         console.log(frameList);

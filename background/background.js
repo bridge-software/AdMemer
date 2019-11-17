@@ -20,12 +20,12 @@ let curMemes = [];
 
 })();
 
-/*async function requestBlocker (){
+async function requestBlocker (){
 
   let slicer = await import(linkSlicerURL);
   let imgUrlToLook = "";
   console.log("INSIDE TEST ");
-    chrome.webRequest.onHeadersReceived.addListener(
+ chrome.webRequest.onHeadersReceived.addListener(
       function(details) {
         let url = slicer.linkSlicer(details.url);
         let searchResult = jsonOBJ.advertisementLinks.indexOf(url)
@@ -35,8 +35,14 @@ let curMemes = [];
           console.log("BLOCK GELDI FAUL DEDI ");
           imgUrlToLook = details.url
           console.log(imgUrlToLook);
+          console.log(details);
+          
+          return {redirectUrl:"https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"};
         }
-        return {cancel: jsonOBJ.advertisementLinks.indexOf(url)  != -1};//we can use redirect here, it works as same as our div filter.
+        else
+        { console.log("NO!");
+          return {cancel: jsonOBJ.advertisementLinks.indexOf(url)  != -1};}
+        //{cancel: jsonOBJ.advertisementLinks.indexOf(url)  != -1};//we can use redirect here, it works as same as our div filter.
         //redirectUrl:"https://raw.githubusercontent.com/bridge-software/AdMemer/master/resources/placeholders/adnoneplaceholder.jpg"
         //Tho redirect seems more solid since it looks wider dataset(host.json) then divfilter(adsID.json).
         //But redirecting needs very good filtering because it causes redirect blocking by the website.Because it redirects everytime the site element to a url when a blocking elemet comes.
@@ -50,7 +56,8 @@ let curMemes = [];
       {urls: ["<all_urls>"]},//filter
       ["blocking"] //response
       );
-    
+
+/*   
 let tabsGLOBAL;
    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     
@@ -73,8 +80,8 @@ let tabsGLOBAL;
     },{TransitionQualifier: ["client_redirect"]}
     );
 
-  });
-}*/
+  });*/
+}
 
 
 /**
@@ -117,7 +124,7 @@ chrome.runtime.onMessage.addListener(
     }
     else if( request.command === "startBlocker")
     {
-      //requestBlocker();
+      requestBlocker();
       sendResponse( {result: "blockerStarted"});
     }
     else

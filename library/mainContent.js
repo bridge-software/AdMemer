@@ -13,31 +13,28 @@ const storagePromise = new Promise(function(resolve, reject) {
 const pageLoadPromise = new Promise(function(resolve, reject) {
 
     //PAGE FULLY LOADED
-    window.addEventListener('load', (event) => {
+    /*window.addEventListener('load', (event) => {
         console.log('\npromise:Page is fully loaded\n');
         resolve(true);
-      });
+      });*/
     
-     /*document.addEventListener('readystatechange', (event) => {
+     document.addEventListener('readystatechange', (event) => {
         console.log(`readystate: ${document.readyState}\n`);
         if (document.readyState == "complete")
         {
             console.log("document frames at ready state complete");
-            //console.log(document.body.getElementsByTagName('iframe'));
-            resolve(true);       
-           
+            //chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
+            //    console.log(response.result);});
+            //resolve(true);       
         }
         if (document.readyState == "interactive")
         {
-            
            chrome.runtime.sendMessage({command: "startBlocker"}, function(response) {
-                console.log(response.result);});
+           console.log(response.result);});
             console.log("document frames at ready state interactive");
-            //console.log(document.body.getElementsByTagName('iframe'));
             //resolve(true);
-
         }
-    });*/
+    });
 
 
     //ONLY DOM ELEMENTS LOADED
@@ -71,7 +68,7 @@ async function main()
     const adReplacer = await import(adReplacerURL);
     const apiResult = await getMemeFromApi(10);
     const checkResult = await extensionStoreListener();
-    const checkDomLoaded = await pageLoadListener();
+    const checkDomLoaded = pageLoadListener();
     
     console.log("checkResult "+checkResult +" checkDomLoaded "+checkDomLoaded);
 
@@ -79,7 +76,6 @@ async function main()
     {
         console.log("REPLACER STARTS..");
         await adReplacer.replaceAds(apiResult);
-        
     }    
 
     //ADD AN UPDATE LISTENER FOR LATER ADS
@@ -140,7 +136,6 @@ async function getMemeFromApi(memeNum ){
         console.log("Meme's from api  : " + resolveValue)
         result = resolveValue;
     })
-
     return result
 }
 
